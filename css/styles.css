@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
+
+:root {
+  --primaryOrange: hsl(26, 100%, 55%);
+  --paleOrange: hsl(25, 100%, 94%);
+  --darkBlue: hsl(220, 13%, 13%);
+  --darkGrayBlue: hsl(219, 9%, 45%);
+  --grayBlue: hsl(220, 14%, 75%);
+  --lightGrayBlue: hsl(223, 64%, 98%);
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 0%);
+
+  --transitionTime: .3s ease-in-out;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  font-family: "Kumbh Sans", sans-serif;
+
+}
+
+body {
+  padding: 0 10%;
+  overflow-x: hidden;
+}
+
+body img {
+  object-fit: contain;
+}
+
+header {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px inset var(--grayBlue);
+  margin-bottom: 5rem;
+}
+
+header,
+.right-side {
+  align-items: center;
+}
+
+header .left-side {
+  display: flex;
+  gap: 4rem;
+}
+
+#logo-img {
+  width: 140px;
+}
+
+header .left-side nav ul {
+  display: flex;
+  gap: 2rem;
+}
+
+header .left-side nav ul a {
+  color: var(--darkGrayBlue);
+  padding-bottom: 38px;
+  transition: color var(--transitionTime);
+  -webkit-transition: color var(--transitionTime);
+  -moz-transition: color var(--transitionTime);
+  -ms-transition: color var(--transitionTime);
+  -o-transition: color var(--transitionTime);
+}
+
+header .left-side nav ul a:hover {
+  color: var(--black);
+  border-bottom: 3px solid var(--primaryOrange);
+}
+
+#cart-icon:hover #cart-icon svg path {
+  fill: var(--black);
+}
+
+header .right-side {
+  display: flex;
+  gap: 4rem;
+}
+
+#avatar-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+#avatar-img:hover {
+  border: 2px solid var(--primaryOrange);
+  cursor: pointer;
+}
