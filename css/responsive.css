@@ -1,0 +1,171 @@
+@media screen and (max-width: 375px) {
+  body {
+    padding: 0;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: var(--black);
+    display: none;
+  }
+
+  header .left-side nav ul {
+    width: 70%;
+    height: 100%;
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    padding-left: 1.4rem;
+    padding-top: 1.4rem;
+    gap: 1.4rem;
+  }
+
+  header .left-side nav ul a {
+    padding-bottom: 0;
+    color: var(--darkBlue);
+    font-weight: 700;
+  }
+
+  .close-nav-menu {
+    display: block;
+  }
+
+  header {
+    border: none;
+    height: 60px;
+    padding: 0 1.5rem;
+    margin-bottom: 0;
+  }
+
+  .nav-menu-icon {
+    display: block;
+  }
+
+  #logo-img {
+    width: 120px;
+  }
+
+  #avatar-img {
+    width: 30px;
+    height: 30px;
+  }
+
+  header .left-side {
+    gap: 1rem;
+  }
+
+  header .right-side {
+    gap: 2rem;
+  }
+
+  /* header section end */
+
+  section {
+    grid-template-columns: 1fr;
+    padding: 0;
+    gap: 0;
+  }
+
+  .product-gallery {
+    display: block;
+    background-color: red;
+    height: 80%;
+  }
+
+  .product-thumbnails {
+    display: none;
+  }
+
+  .product-main {
+    height: 100%;
+  }
+
+  #product-main-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+  }
+
+  .icon-previous,
+  .icon-next {
+    top: 37%;
+    width: 40px;
+    height: 40px;
+  }
+
+  .icon-previous {
+    left: 5%;
+  }
+
+  .icon-next {
+    right: 5%;
+  }
+
+  /* gallery section end */
+
+  .product-descriptions {
+    padding: 1.5rem;
+  }
+
+  .product-descriptions h1 {
+    font-size: 1.6rem;
+    line-height: 2rem;
+    margin-bottom: 0;
+  }
+
+  .product-descriptions p {
+    font-size: 15px;
+    line-height: 1.4rem;
+  }
+
+  .prices {
+    width: 100%;
+    display: block;
+  }
+
+  .current-price {
+    font-size: 1.2rem;
+  }
+
+  .discount-percentage {
+    font-size: 12px;
+  }
+
+  .original-price {
+    float: right;
+  }
+
+  .cart {
+    flex-direction: column;
+  }
+
+  .cart-amount {
+    width: 100%;
+  }
+
+  .add-to-cart-btn {
+    width: 100%;
+  }
+
+  /* sections end  */
+
+  .cart-modal {
+    top: 70px;
+    right: 5px;
+    left: 5px;
+    width: 100%;
+    box-shadow: none;
+    z-index: 100;
+  }
+
+}

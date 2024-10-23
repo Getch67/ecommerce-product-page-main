@@ -1,12 +1,23 @@
 // navbar interactivity
-const navLinks = document.querySelectorAll("a");
+const navLinks = document.querySelectorAll("nav a");
 
 navLinks.forEach(link => {
   link.addEventListener("click", () => {
+    navLinks.forEach(link => link.classList.remove("a-active"));
     link.classList.add("a-active");
   });
 });
 
+const navMenuOpen = document.querySelector(".nav-menu-icon");
+navMenuOpen.addEventListener("click", () => {
+  document.querySelector("nav").style.display = "block"
+
+});
+
+const navMenuClose = document.querySelector(".close-nav-menu");
+navMenuClose.addEventListener("click", () => {
+  document.querySelector("nav").style.display = "none"
+});
 
 // lightbox section and product gallery section
 const productMainImg = document.getElementById("product-main-img");
@@ -57,7 +68,8 @@ if (openLightbox) {
 productThumbnails.forEach((thumbnail, index) => {
   thumbnail.addEventListener("click", () => {
     productMainImg.setAttribute("src", mainImgs[index]);
-    thumbnail.classList.add("active")
+    productThumbnails.forEach(thumbnail => { thumbnail.classList.remove("active") });
+    thumbnail.classList.add("active");
   });
 });
 
@@ -67,7 +79,12 @@ function previousImg() {
   } else {
     currentImgIndex = mainImgs.length - 1
   }
-  lightboxMainImg.setAttribute("src", mainImgs[currentImgIndex]);
+  // test
+  if (window.matchMedia('(max-width: 375px)')) {
+    productMainImg.setAttribute("src", mainImgs[currentImgIndex]);
+  } else {
+    lightboxMainImg.setAttribute("src", mainImgs[currentImgIndex]);
+  }
 
 }
 function nextImg() {
@@ -76,7 +93,14 @@ function nextImg() {
   } else {
     currentImgIndex = 0;
   }
-  lightboxMainImg.setAttribute("src", mainImgs[currentImgIndex]);
+  // test
+  if (window.matchMedia('(max-width: 375px)')) {
+    console.log("test");
+    productMainImg.setAttribute("src", mainImgs[currentImgIndex]);
+  } else {
+    lightboxMainImg.setAttribute("src", mainImgs[currentImgIndex]);
+
+  }
 
 }
 
@@ -84,11 +108,10 @@ lightboxThumbnails.forEach((thumbnail, index) => {
   thumbnail.addEventListener("click", () => {
     currentImgIndex = index;
     lightboxMainImg.setAttribute("src", mainImgs[currentImgIndex]);
-    if (index === currentImgIndex) {
-      thumbnail.classList.add("active");
-    } else {
-      thumbnail.classList.remove("active");
-    }
+    lightboxThumbnails.forEach(thumbnail => { thumbnail.classList.remove("active") })
+
+    thumbnail.classList.add("active");
+
   });
 });
 
