@@ -1,6 +1,10 @@
-// navbar interactivity
+const navElement = document.querySelector("nav");
+const navUl = navElement.querySelector("ul");
 const navLinks = document.querySelectorAll("nav a");
+const navMenuOpen = document.querySelector(".nav-menu-icon");
+const navMenuClose = document.querySelector(".close-nav-menu");
 
+// Navbar interactivity
 navLinks.forEach(link => {
   link.addEventListener("click", () => {
     navLinks.forEach(link => link.classList.remove("a-active"));
@@ -8,25 +12,30 @@ navLinks.forEach(link => {
   });
 });
 
-const navMenuOpen = document.querySelector(".nav-menu-icon");
 navMenuOpen.addEventListener("click", () => {
-  document.querySelector("nav").style.display = "block"
-
+  navElement.style.display = "block";
+  setTimeout(() => {
+    navElement.style.opacity = "1";
+    navUl.style.transform = "translateX(0)";
+  }, 10);
 });
 
-const navMenuClose = document.querySelector(".close-nav-menu");
 navMenuClose.addEventListener("click", () => {
-  document.querySelector("nav").style.display = "none"
+  navElement.style.opacity = "0";
+  navUl.style.transform = "translateX(-100%)";
+  setTimeout(() => {
+    navElement.style.display = "none";
+  }, 400);
 });
 
-// lightbox section and product gallery section
+// Lightbox and product gallery section
 const productMainImg = document.getElementById("product-main-img");
 const productThumbnails = document.querySelectorAll(".product-thumbnail img");
-const productThumbnail = document.querySelector(".product-thumbnail img");
+const productThumbnailsDiv = document.querySelectorAll(".product-thumbnail");
 const lightbox = document.querySelector(".lightbox");
 const lightboxMainImg = document.getElementById("lightbox-main-img");
-const iconPrevious = document.querySelector(".icon-previous");
-const iconNext = document.querySelector(".icon-next");
+const iconPrevious = document.querySelectorAll(".icon-previous");
+const iconNext = document.querySelectorAll(".icon-next");
 const iconClose = document.querySelector(".icon-close");
 const lightboxThumbnails = document.querySelectorAll(".lightbox-thumbnail");
 
@@ -40,82 +49,77 @@ const mainImgs = [
 let currentImgIndex = 0;
 
 function closeLightbox() {
-  lightbox.style.display = "none"
+  lightbox.style.display = "none";
 }
+
 function openLightbox() {
-  lightbox.style.display = "block"
-
+  lightbox.style.display = "block";
 }
-productMainImg.addEventListener("click", openLightbox);
-iconClose.addEventListener("click", closeLightbox);
-iconPrevious.addEventListener('click', previousImg);
-iconNext.addEventListener('click', nextImg);
 
-if (openLightbox) {
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      closeLightbox();
-    }
-    if (e.key === "ArrowLeft") {
-      previousImg();
-    }
-    if (e.key === "ArrowRight") {
-      nextImg();
-    }
-  });
+window.matchMedia('(min-width: 641px)').matches
+  ? productMainImg.addEventListener("click", openLightbox)
+  : productMainImg.addEventListener("click", () => { });
+
+iconClose.addEventListener("click", closeLightbox);
+
+function updateImage(direction) {
+  if (direction === "previous") {
+    currentImgIndex = (currentImgIndex > 0) ? currentImgIndex - 1 : mainImgs.length - 1;
+  } else {
+    currentImgIndex = (currentImgIndex < mainImgs.length - 1) ? currentImgIndex + 1 : 0;
+  }
+
+  const targetImg = window.matchMedia('(max-width: 640px)').matches ? productMainImg : lightboxMainImg;
+  targetImg.setAttribute("src", mainImgs[currentImgIndex]);
+}
+iconPrevious.forEach(icon => {
+  icon.addEventListener("click", () => updateImage("previous"));
+});
+iconNext.forEach(icon => {
+  icon.addEventListener("click", () => updateImage("next"));
+});
+
+let debounceTimeout;
+function handleKeydown(event) {
+  clearTimeout(debounceTimeout);
+  debounceTimeout = setTimeout(() => {
+    if (event.key === "Escape") closeLightbox();
+    if (event.key === "ArrowLeft") updateImage("previous");
+    if (event.key === "ArrowRight") updateImage("next");
+  }, 100);
+}
+
+window.addEventListener("keydown", handleKeydown);
+
+// Thumbnails interaction
+function handleThumbnailClick(index, thumbnails) {
+  productMainImg.setAttribute("src", mainImgs[index]);
+  thumbnails.forEach(thumb => thumb.classList.remove("active"));
+  thumbnails[index].classList.add("active");
 }
 
 productThumbnails.forEach((thumbnail, index) => {
-  thumbnail.addEventListener("click", () => {
-    productMainImg.setAttribute("src", mainImgs[index]);
-    productThumbnails.forEach(thumbnail => { thumbnail.classList.remove("active") });
-    thumbnail.classList.add("active");
+  thumbnail.addEventListener("click", () => handleThumbnailClick(index, productThumbnails));
+});
+
+productThumbnailsDiv.forEach((thumbDiv, index) => {
+  thumbDiv.addEventListener("click", () => {
+    productThumbnailsDiv.forEach(thumbDiv => thumbDiv.classList.remove("active-thum"));
+    thumbDiv.classList.add("active-thum");
   });
 });
 
-function previousImg() {
-  if (currentImgIndex > 0) {
-    currentImgIndex--
-  } else {
-    currentImgIndex = mainImgs.length - 1
-  }
-  // test
-  if (window.matchMedia('(max-width: 375px)')) {
-    productMainImg.setAttribute("src", mainImgs[currentImgIndex]);
-  } else {
-    lightboxMainImg.setAttribute("src", mainImgs[currentImgIndex]);
-  }
-
-}
-function nextImg() {
-  if (currentImgIndex < mainImgs.length - 1) {
-    currentImgIndex++;
-  } else {
-    currentImgIndex = 0;
-  }
-  // test
-  if (window.matchMedia('(max-width: 375px)')) {
-    console.log("test");
-    productMainImg.setAttribute("src", mainImgs[currentImgIndex]);
-  } else {
-    lightboxMainImg.setAttribute("src", mainImgs[currentImgIndex]);
-
-  }
-
-}
-
+// Lightbox thumbnail interaction
 lightboxThumbnails.forEach((thumbnail, index) => {
   thumbnail.addEventListener("click", () => {
     currentImgIndex = index;
     lightboxMainImg.setAttribute("src", mainImgs[currentImgIndex]);
-    lightboxThumbnails.forEach(thumbnail => { thumbnail.classList.remove("active") })
-
+    lightboxThumbnails.forEach(thumb => thumb.classList.remove("active"));
     thumbnail.classList.add("active");
-
   });
 });
 
-// cart functionalities
+// Cart functionalities
 const iconMinus = document.getElementById("minus-icon");
 const iconPlus = document.getElementById("plus-icon");
 const addToCartBtn = document.querySelector(".add-to-cart-btn");
@@ -133,63 +137,59 @@ const itemPriceTotal = document.querySelector(".item-price-total");
 const productName = document.querySelector(".product-descriptions h1");
 const currentPrice = document.querySelector(".current-price");
 
-
 function showElements(element) {
-  element.style.display = "block"
+  element.style.display = "block";
 }
+
 function hideElements(element) {
-  element.style.display = "none"
+  element.style.display = "none";
 }
+
 function minusItemNum() {
   let currentAmount = parseInt(cartAmountBefore.textContent);
-  let newAmount = currentAmount - 1
   if (currentAmount > 0) {
-    cartAmountBefore.textContent = newAmount
+    cartAmountBefore.textContent = currentAmount - 1;
   }
 }
+
 function plusItemNum() {
   let currentAmount = parseInt(cartAmountBefore.textContent);
-  let newAmount = currentAmount + 1
-  cartAmountBefore.textContent = newAmount
+  cartAmountBefore.textContent = currentAmount + 1;
 }
+
 function addToCart() {
   if (parseInt(cartAmountBefore.textContent) > 0) {
-    cartAmount.textContent = cartAmountBefore.textContent
+    cartAmount.textContent = cartAmountBefore.textContent;
     showElements(cartAmount);
     hideElements(cartModalEmpty);
-    itemThumbnail.setAttribute("src", productThumbnail.getAttribute("src"));
-    itemName.innerHTML = productName.textContent
+    itemThumbnail.setAttribute("src", productMainImg.getAttribute("src"));
+    itemName.textContent = productName.textContent;
     let itemPriceNum = parseInt(currentPrice.textContent.replace(/[$,]/g, ""));
     let totalPriceNum = itemPriceNum * parseInt(cartAmount.textContent);
-    itemPriceAmount.innerHTML = `${currentPrice.textContent} x ${cartAmount.textContent}`
-    itemPriceTotal.innerHTML = `$${totalPriceNum.toFixed(2)}`
-    cartModalFilled.style.display = "flex"
+    itemPriceAmount.textContent = `${currentPrice.textContent} x ${cartAmount.textContent}`;
+    itemPriceTotal.textContent = `$${totalPriceNum.toFixed(2)}`;
+    cartModalFilled.style.display = "flex";
   }
 }
 
 function deleteItem() {
   hideElements(cartModalFilled);
-  cartModalEmpty.style.display = "flex"
+  cartModalEmpty.style.display = "flex";
   hideElements(cartAmount);
 }
+
 function showCartModal(e) {
   e.stopPropagation();
-
-  if (cartModal.classList.contains('hidden')) {
-    cartModal.classList.remove('hidden');
-  } else {
-    cartModal.classList.add('hidden');
-  }
+  cartModal.classList.toggle('hidden');
 }
+
 document.addEventListener("click", (e) => {
   if (!cartModal.contains(e.target) && !cartIcon.contains(e.target)) {
     cartModal.classList.add('hidden');
-
   }
 });
-cartModal.addEventListener("click", (e) => {
-  e.stopPropagation();
-});
+
+cartModal.addEventListener("click", (e) => e.stopPropagation());
 
 deleteIcon.addEventListener("click", deleteItem);
 cartIcon.addEventListener("click", showCartModal);
