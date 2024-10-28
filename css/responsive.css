@@ -1,3 +1,10 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
 @media (max-width: 768px) {
   body {
     padding: 0;
@@ -24,13 +31,21 @@
     width: 70%;
     height: 100%;
     background-color: var(--white);
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     padding-left: 1.4rem;
     padding-top: 1.4rem;
     gap: 1.4rem;
     transform: translateX(-100%);
+    -webkit-transition: -webkit-transform .4s ease-in-out;
+    transition: -webkit-transform .4s ease-in-out;
     transition: transform .4s ease-in-out;
+    transition: transform .4s ease-in-out, -webkit-transform .4s ease-in-out;
     -webkit-transition: transform .4s ease-in-out;
     -moz-transition: transform .4s ease-in-out;
     -ms-transition: transform .4s ease-in-out;
@@ -82,7 +97,12 @@
   /* header section end */
 
   section {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     padding: 0;
     gap: 0;
@@ -110,6 +130,7 @@
   #product-main-img {
     height: 100%;
     width: 100%;
+    -o-object-fit: cover;
     object-fit: cover;
     border-radius: 0;
     -webkit-border-radius: 0;
@@ -175,6 +196,9 @@
   }
 
   .cart {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
   }
 
@@ -186,6 +210,7 @@
   .add-to-cart-btn {
     width: 100%;
     height: 50px;
+    -webkit-box-shadow: 0 20px 15px rgba(255, 125, 26, 0.2);
     box-shadow: 0 20px 15px rgba(255, 125, 26, 0.2);
   }
 
@@ -196,6 +221,7 @@
     left: 2%;
     width: 96%;
     height: 260px;
+    -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
     z-index: 100;
   }
@@ -223,7 +249,12 @@
     width: 100%;
     height: 8%;
     background-color: var(--white);
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
     flex-direction: row;
     padding-left: 1.4rem;
     padding-top: 1.4rem;
@@ -231,14 +262,18 @@
   }
 
   section {
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
     gap: 2rem;
   }
 
   .product-gallery {
     height: 100%;
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
     max-width: 100%;
     justify-items: center;
@@ -261,7 +296,9 @@
   }
 
   .product-thumbnails {
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 80px 1rem 80px 1rem 80px 1rem 80px;
     grid-template-columns: repeat(4, 80px);
     gap: 1rem;
   }
@@ -279,6 +316,7 @@
   .product-thumbnail img {
     width: 100%;
     height: 100%;
+    -o-object-fit: cover;
     object-fit: cover;
   }
 
@@ -305,6 +343,9 @@
   }
 
   .cart {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
     flex-direction: row;
   }
 
@@ -313,6 +354,7 @@
     left: 45%;
     width: 350px;
     height: 240px;
+    -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
     z-index: 100;
   }
@@ -332,11 +374,15 @@
   }
 
   header .right-side {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     gap: calc(1rem + (100vw - 769px) * 0.1);
   }
 
   section {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     gap: calc(30px + (100vw - 769px) * 0.2);
     padding: 0 calc(0rem + (100vw - 769px) * 0.12);
@@ -354,11 +400,14 @@
 @media (min-width: 1441px) {
   body {
     padding: 0 20%;
+    display: -ms-grid;
     display: grid;
     justify-items: center;
   }
 
   section {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
   }
 
