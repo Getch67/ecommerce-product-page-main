@@ -38,6 +38,7 @@ const iconPrevious = document.querySelectorAll(".icon-previous");
 const iconNext = document.querySelectorAll(".icon-next");
 const iconClose = document.querySelector(".icon-close");
 const lightboxThumbnails = document.querySelectorAll(".lightbox-thumbnail");
+const lightboxThumbnailsImg = document.querySelectorAll(".lightbox-thumbnail img");
 
 const mainImgs = [
   "./images/image-product-1.jpg",
@@ -56,12 +57,13 @@ function openLightbox() {
   lightbox.style.display = "block";
 }
 
-window.matchMedia('(min-width: 641px)').matches
+window.matchMedia('(min-width: 769px)').matches
   ? productMainImg.addEventListener("click", openLightbox)
   : productMainImg.addEventListener("click", () => { });
 
 iconClose.addEventListener("click", closeLightbox);
 
+// Update the main image and highlight the current thumbnail
 function updateImage(direction) {
   if (direction === "previous") {
     currentImgIndex = (currentImgIndex > 0) ? currentImgIndex - 1 : mainImgs.length - 1;
@@ -69,9 +71,31 @@ function updateImage(direction) {
     currentImgIndex = (currentImgIndex < mainImgs.length - 1) ? currentImgIndex + 1 : 0;
   }
 
-  const targetImg = window.matchMedia('(max-width: 640px)').matches ? productMainImg : lightboxMainImg;
-  targetImg.setAttribute("src", mainImgs[currentImgIndex]);
+  // const targetImg = window.matchMedia('(max-width: 640px)').matches ? productMainImg : lightboxMainImg;
+  // targetImg.setAttribute("src", mainImgs[currentImgIndex]);
+  productMainImg.setAttribute("src", mainImgs[currentImgIndex]);
+  lightboxMainImg.setAttribute("src", mainImgs[currentImgIndex]);
+
+  highlightActiveThumbnail();
 }
+
+// Highlight active thumbnail
+function highlightActiveThumbnail() {
+  productThumbnails.forEach((thumb, index) => {
+    thumb.classList.toggle("active", index === currentImgIndex);
+  });
+  productThumbnailsDiv.forEach((thumbDiv, index) => {
+    thumbDiv.classList.toggle("active-thum", index === currentImgIndex);
+  });
+  lightboxThumbnails.forEach((thumb, index) => {
+    thumb.classList.toggle("active-thum", index === currentImgIndex);
+  });
+  lightboxThumbnailsImg.forEach((thumbImg, index) => {
+    thumbImg.classList.toggle("active", index === currentImgIndex);
+  });
+}
+
+// Add event listeners for the next and previous arrows
 iconPrevious.forEach(icon => {
   icon.addEventListener("click", () => updateImage("previous"));
 });
@@ -79,6 +103,7 @@ iconNext.forEach(icon => {
   icon.addEventListener("click", () => updateImage("next"));
 });
 
+// Debounce keydown event for smooth navigation
 let debounceTimeout;
 function handleKeydown(event) {
   clearTimeout(debounceTimeout);
@@ -92,20 +117,21 @@ function handleKeydown(event) {
 window.addEventListener("keydown", handleKeydown);
 
 // Thumbnails interaction
-function handleThumbnailClick(index, thumbnails) {
-  productMainImg.setAttribute("src", mainImgs[index]);
-  thumbnails.forEach(thumb => thumb.classList.remove("active"));
-  thumbnails[index].classList.add("active");
+function handleThumbnailClick(index) {
+  currentImgIndex = index;
+  productMainImg.setAttribute("src", mainImgs[currentImgIndex]);
+  highlightActiveThumbnail();
 }
 
 productThumbnails.forEach((thumbnail, index) => {
-  thumbnail.addEventListener("click", () => handleThumbnailClick(index, productThumbnails));
+  thumbnail.addEventListener("click", () => handleThumbnailClick(index));
 });
 
 productThumbnailsDiv.forEach((thumbDiv, index) => {
   thumbDiv.addEventListener("click", () => {
-    productThumbnailsDiv.forEach(thumbDiv => thumbDiv.classList.remove("active-thum"));
-    thumbDiv.classList.add("active-thum");
+    currentImgIndex = index;
+    productMainImg.setAttribute("src", mainImgs[currentImgIndex]);
+    highlightActiveThumbnail();
   });
 });
 
@@ -114,8 +140,14 @@ lightboxThumbnails.forEach((thumbnail, index) => {
   thumbnail.addEventListener("click", () => {
     currentImgIndex = index;
     lightboxMainImg.setAttribute("src", mainImgs[currentImgIndex]);
-    lightboxThumbnails.forEach(thumb => thumb.classList.remove("active"));
-    thumbnail.classList.add("active");
+    highlightActiveThumbnail();
+  });
+});
+lightboxThumbnailsImg.forEach((thumbnail, index) => {
+  thumbnail.addEventListener("click", () => {
+    currentImgIndex = index;
+    lightboxMainImg.setAttribute("src", mainImgs[currentImgIndex]);
+    highlightActiveThumbnail();
   });
 });
 
@@ -196,3 +228,5 @@ cartIcon.addEventListener("click", showCartModal);
 addToCartBtn.addEventListener("click", addToCart);
 iconMinus.addEventListener("click", minusItemNum);
 iconPlus.addEventListener("click", plusItemNum);
+
+// icon hovers
