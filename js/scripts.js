@@ -229,4 +229,4 @@ addToCartBtn.addEventListener("click", addToCart);
 iconMinus.addEventListener("click", minusItemNum);
 iconPlus.addEventListener("click", plusItemNum);
 
-// icon hovers
+
